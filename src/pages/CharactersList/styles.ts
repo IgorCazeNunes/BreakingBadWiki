@@ -75,3 +75,26 @@ export const InputIcon = styled(Icon)`
 export const Loader = styled.ActivityIndicator`
   margin: 15px 0;
 `;
+
+export const FloatButton = styled.TouchableOpacity`
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  z-index: 999;
+  bottom: 15px;
+  right: 15px;
+
+  height: 50px;
+  width: 50px;
+
+  background: #6d6d6d;
+  border-radius: 25px;
+`;
+
+export const FloatButtonIcon = styled(Icon)`
+  margin-left: 3px;
+
+  color: #ffffff;
+  font-size: 26px;
+`;

@@ -16,6 +16,8 @@ import {
   InputIcon,
   InputText,
   Loader,
+  FloatButton,
+  FloatButtonIcon,
 } from './styles';
 
 export interface Character {
@@ -56,6 +58,10 @@ const CharactersList: React.FC = () => {
     setCharacters(data);
 
     setLoading(false);
+  }, []);
+
+  const handleNavigateToNewCharacter = useCallback(() => {
+    console.log('Navigate To New Character');
   }, []);
 
   const totalCharacters = useMemo(() => {
@@ -106,6 +112,10 @@ const CharactersList: React.FC = () => {
           />
         )}
       </Content>
+
+      <FloatButton onPress={handleNavigateToNewCharacter}>
+        <FloatButtonIcon name="user-plus" />
+      </FloatButton>
     </Container>
   );
 };
