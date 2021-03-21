@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/core';
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
 
@@ -19,9 +20,14 @@ interface CharacterCardProps {
 }
 
 const CharacterCard: React.FC<CharacterCardProps> = ({ item }) => {
-  const handleNavigateToCharacterOverView = useCallback((id: number) => {
-    console.log(`Character ID: ${id}`);
-  }, []);
+  const navigation = useNavigation();
+
+  const handleNavigateToCharacterOverView = useCallback(
+    (id: number) => {
+      navigation.navigate('CharacterOverView', { id });
+    },
+    [navigation],
+  );
 
   return (
     <Container>
