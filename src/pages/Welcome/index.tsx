@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Image } from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 
 import logoImage from '../../assets/logo.png';
 import backgroundImage from '../../assets/background.png';
@@ -13,30 +14,34 @@ import {
   ButtonIcon,
 } from './styles';
 
-const Welcome: React.FC = () => (
-  <Container source={backgroundImage} resizeMode="cover">
-    <Image source={logoImage} />
+const Welcome: React.FC = () => {
+  const navigation = useNavigation();
 
-    <Title>
-      Seja {'\n'}
-      Bem-Vindo
-    </Title>
+  const handleNavigateToCharactersList = useCallback(() => {
+    navigation.navigate('CharactersList');
+  }, [navigation]);
 
-    <Description>
-      Aqui você vai ficar por dentro de todos os personagens da serie americana
-      breaking bad.
-    </Description>
+  return (
+    <Container source={backgroundImage} resizeMode="cover">
+      <Image source={logoImage} />
 
-    <ButtonContainer
-      onPress={() => {
-        console.log('Proseguir...');
-      }}
-    >
-      <ButtonText>Proseguir</ButtonText>
+      <Title>
+        Seja {'\n'}
+        Bem-Vindo
+      </Title>
 
-      <ButtonIcon name="arrow-right" />
-    </ButtonContainer>
-  </Container>
-);
+      <Description>
+        Aqui você vai ficar por dentro de todos os personagens da serie
+        americana breaking bad.
+      </Description>
+
+      <ButtonContainer onPress={handleNavigateToCharactersList}>
+        <ButtonText>Proseguir</ButtonText>
+
+        <ButtonIcon name="arrow-right" />
+      </ButtonContainer>
+    </Container>
+  );
+};
 
 export default Welcome;
