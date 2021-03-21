@@ -1,7 +1,10 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { FlatList } from 'react-native-gesture-handler';
-import CharacterCard from '../../components/CharacterCard';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { Formik } from 'formik';
+
 import api from '../../services/api';
+
+import CharacterCard from '../../components/CharacterCard';
 
 import {
   Container,
@@ -24,8 +27,8 @@ export interface Character {
 }
 
 const CharactersList: React.FC = () => {
-  const [characters, setCharacters] = useState<Character[]>([]);
   const [loading, setLoading] = useState(false);
+  const [characters, setCharacters] = useState<Character[]>([]);
 
   useEffect(() => {
     async function loadCharacters(): Promise<void> {
@@ -43,6 +46,20 @@ const CharactersList: React.FC = () => {
     loadCharacters();
   }, []);
 
+  const handleSearch = useCallback(async values => {
+    setLoading(true);
+
+    setCharacters([]);
+
+    const { data } = await api.get<Character[]>(
+      `/characters?name=${values.name}`,
+    );
+
+    setCharacters(data);
+
+    setLoading(false);
+  }, []);
+
   const totalCharacters = useMemo(() => {
     return characters.length;
   }, [characters]);
@@ -56,18 +73,28 @@ const CharactersList: React.FC = () => {
       </Header>
 
       <Content>
-        <InputContainer>
-          <InputIcon name="search" />
+        <Formik initialValues={{ name: '' }} onSubmit={handleSearch}>
+          {({ handleChange, handleBlur, handleSubmit, values }) => (
+            <InputContainer>
+              <TouchableOpacity onPress={handleSubmit}>
+                <InputIcon name="search" />
+              </TouchableOpacity>
 
-          <InputText
-            keyboardAppearance="dark"
-            placeholderTextColor="#959595"
-            autoCorrect={false}
-            autoCapitalize="none"
-            placeholder="Busque por um personagem"
-            returnKeyType="send"
-          />
-        </InputContainer>
+              <InputText
+                keyboardAppearance="dark"
+                placeholderTextColor="#959595"
+                autoCorrect={false}
+                autoCapitalize="none"
+                placeholder="Busque por um personagem"
+                returnKeyType="send"
+                onSubmitEditing={handleSubmit}
+                onChangeText={handleChange('name')}
+                onBlur={handleBlur('name')}
+                value={values.name}
+              />
+            </InputContainer>
+          )}
+        </Formik>
 
         {loading ? (
           <Loader size="large" color="#3d3d4d" />
