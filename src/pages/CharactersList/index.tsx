@@ -12,6 +12,7 @@ import {
   InputContainer,
   InputIcon,
   InputText,
+  Loader,
 } from './styles';
 
 export interface Character {
@@ -24,11 +25,17 @@ export interface Character {
 
 const CharactersList: React.FC = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function loadCharacters(): Promise<void> {
+      setLoading(true);
+
       const { data } = await api.get<Character[]>('/characters');
+
       setCharacters(data);
+
+      setLoading(false);
     }
 
     loadCharacters();
@@ -60,13 +67,17 @@ const CharactersList: React.FC = () => {
           />
         </InputContainer>
 
-        <FlatList
-          data={characters}
-          keyExtractor={item => item.char_id}
-          renderItem={({ item }: { item: Character }) => {
-            return <CharacterCard item={item} />;
-          }}
-        />
+        {loading ? (
+          <Loader size="large" color="#3d3d4d" />
+        ) : (
+          <FlatList
+            data={characters}
+            keyExtractor={item => item.char_id}
+            renderItem={({ item }: { item: Character }) => {
+              return <CharacterCard item={item} />;
+            }}
+          />
+        )}
       </Content>
     </Container>
   );
