@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { FlatList } from 'react-native-gesture-handler';
 import CharacterCard from '../../components/CharacterCard';
 import api from '../../services/api';
@@ -23,7 +23,7 @@ export interface Character {
 }
 
 const CharactersList: React.FC = () => {
-  const [characters, setCharacters] = useState<Character[]>();
+  const [characters, setCharacters] = useState<Character[]>([]);
 
   useEffect(() => {
     async function loadCharacters(): Promise<void> {
@@ -34,11 +34,16 @@ const CharactersList: React.FC = () => {
     loadCharacters();
   }, []);
 
+  const totalCharacters = useMemo(() => {
+    return characters.length;
+  }, [characters]);
+
   return (
     <Container>
       <Header>
         <Title>Listagem</Title>
-        <SubTitle>62 Personagens</SubTitle>
+
+        <SubTitle>{totalCharacters} Personagens</SubTitle>
       </Header>
 
       <Content>
