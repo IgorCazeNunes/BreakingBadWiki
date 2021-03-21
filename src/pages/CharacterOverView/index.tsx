@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 
-import { View } from 'react-native';
+import { Linking, View } from 'react-native';
 import api from '../../services/api';
 
 import {
@@ -65,8 +65,8 @@ const CharacterOverView: React.FC = () => {
     navigation.navigate('CharactersList');
   }, [navigation]);
 
-  const handleSearchGoogle = useCallback(() => {
-    console.log('Google Search');
+  const handleSearchGoogle = useCallback(async name => {
+    Linking.openURL(`https://www.google.com/search?q=${name}`);
   }, []);
 
   return (
@@ -110,7 +110,11 @@ const CharacterOverView: React.FC = () => {
         </PortraytedStatusContainer>
       </CharacterInfo>
 
-      <SearchGoogleButton onPress={handleSearchGoogle}>
+      <SearchGoogleButton
+        onPress={() => {
+          handleSearchGoogle(character.name);
+        }}
+      >
         <SearchGoogleButtonText>Buscar no google</SearchGoogleButtonText>
       </SearchGoogleButton>
     </Container>
