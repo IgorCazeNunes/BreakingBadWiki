@@ -31,7 +31,9 @@ const CharactersList: React.FC = () => {
     async function loadCharacters(): Promise<void> {
       setLoading(true);
 
-      const { data } = await api.get<Character[]>('/characters');
+      const { data } = await api.get<Character[]>(
+        '/characters?category=Breaking Bad',
+      );
 
       setCharacters(data);
 
