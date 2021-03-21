@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 
 import { View } from 'react-native';
 import api from '../../services/api';
@@ -37,12 +37,13 @@ type ParamList = {
 };
 
 const CharacterOverView: React.FC = () => {
+  const route = useRoute<RouteProp<ParamList, 'CharacterOverView'>>();
+  const navigation = useNavigation();
+
   const [loading, setLoading] = useState(false);
   const [character, setCharacter] = useState<CharacterData>(
     {} as CharacterData,
   );
-
-  const route = useRoute<RouteProp<ParamList, 'CharacterOverView'>>();
 
   const { id } = route.params;
 
@@ -60,6 +61,10 @@ const CharacterOverView: React.FC = () => {
     loadCharacter();
   }, [id]);
 
+  const handleBack = useCallback(() => {
+    navigation.navigate('CharactersList');
+  }, [navigation]);
+
   const handleSearchGoogle = useCallback(() => {
     console.log('Google Search');
   }, []);
@@ -68,7 +73,7 @@ const CharacterOverView: React.FC = () => {
     <Container>
       {loading && <Loader size="large" color="#3d3d4d" />}
 
-      <ReturnButton>
+      <ReturnButton onPress={handleBack}>
         <ReturnButtonIcon name="arrow-left" />
       </ReturnButton>
 
