@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { RouteProp, useRoute } from '@react-navigation/native';
+
 import { View } from 'react-native';
+import api from '../../services/api';
 
 import {
   Container,
@@ -27,36 +30,35 @@ export interface CharacterData {
   portrayed: string;
 }
 
+type ParamList = {
+  CharacterOverView: {
+    id: number;
+  };
+};
+
 const CharacterOverView: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [character, setCharacter] = useState<CharacterData>(
     {} as CharacterData,
   );
 
+  const route = useRoute<RouteProp<ParamList, 'CharacterOverView'>>();
+
+  const { id } = route.params;
+
   useEffect(() => {
-    // async function loadCharacter(): Promise<void> {
-    //   setLoading(true);
+    async function loadCharacter(): Promise<void> {
+      setLoading(true);
 
-    //   const { data } = await api.get<CharacterData>('/characters/2');
+      const { data } = await api.get<CharacterData[]>(`/characters/${id}`);
 
-    //   setCharacter(data);
+      setCharacter(data[0]);
 
-    //   setLoading(false);
-    // }
+      setLoading(false);
+    }
 
-    // loadCharacter();
-
-    setCharacter({
-      name: 'Walter White',
-      birthday: '09-07-1958',
-      occupation: ['High School Chemistry Teacher', 'Meth King Pin'],
-      img:
-        'https://images.amcnetworks.com/amc.com/wp-content/uploads/2015/04/cast_bb_700x1000_walter-white-lg.jpg',
-      status: 'Deceased',
-      nickname: 'Heisenberg',
-      portrayed: 'Bryan Cranston',
-    });
-  }, []);
+    loadCharacter();
+  }, [id]);
 
   const handleSearchGoogle = useCallback(() => {
     console.log('Google Search');
