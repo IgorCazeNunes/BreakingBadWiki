@@ -39,7 +39,7 @@ const CharacterOverView: React.FC = () => {
   const route = useRoute<RouteProp<ParamList, 'CharacterOverView'>>();
   const navigation = useNavigation();
 
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [character, setCharacter] = useState<CharacterData>(
     {} as CharacterData,
   );
@@ -48,7 +48,7 @@ const CharacterOverView: React.FC = () => {
 
   useEffect(() => {
     async function loadCharacter(): Promise<void> {
-      setLoading(true);
+      setIsLoading(true);
 
       const { data } = await api.get<CharacterData[]>(`/characters/${id}`);
 
@@ -57,7 +57,7 @@ const CharacterOverView: React.FC = () => {
 
       setCharacter(formatedCharacter);
 
-      setLoading(false);
+      setIsLoading(false);
     }
 
     loadCharacter();
@@ -73,7 +73,7 @@ const CharacterOverView: React.FC = () => {
 
   return (
     <Container>
-      {loading && <Loader size="large" color="#3d3d4d" />}
+      {isLoading && <Loader size="large" color="#3d3d4d" />}
 
       <ReturnButton onPress={handleBack}>
         <ReturnButtonIcon name="arrow-left" />
