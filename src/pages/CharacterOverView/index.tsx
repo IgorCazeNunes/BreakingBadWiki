@@ -91,7 +91,7 @@ const CharacterOverView: React.FC = () => {
 
         <View>
           <CharacterInfoSubTitle>Ocupação:</CharacterInfoSubTitle>
-          <CharacterInfoText>{character.occupation}</CharacterInfoText>
+          <CharacterInfoText>{character.occupation[0]}</CharacterInfoText>
         </View>
 
         <View>
