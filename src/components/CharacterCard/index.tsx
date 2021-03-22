@@ -38,7 +38,9 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ item }) => {
           handleNavigateToCharacterOverView(item.char_id);
         }}
       >
-        <CardTitle>{item.name}</CardTitle>
+        <CardTitle ellipsizeMode="tail" numberOfLines={1}>
+          {item.name}
+        </CardTitle>
 
         <View>
           <CardSubTitle>Conhecido como:</CardSubTitle>
