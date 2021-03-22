@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Feather';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   flex: 1;
 
   background: #c4c4c4;
@@ -66,6 +66,7 @@ export const Content = styled.View`
   align-items: center;
 
   margin: 0 20px;
+  padding-bottom: 76px;
 `;
 
 export const ContentTitle = styled.Text`
