@@ -25,7 +25,8 @@ import {
 
 interface CharacterData extends Character {
   occupation: string[];
-  status: string;
+  status: 'Presumed dead' | 'Alive' | 'Deceased' | 'Unknown';
+  formatedStatus: 'Vivo' | 'Morto' | 'Desconhecido';
   portrayed: string;
 }
 
@@ -54,6 +55,15 @@ const CharacterOverView: React.FC = () => {
 
       const formatedCharacter = data[0];
       formatedCharacter.occupation = [formatedCharacter.occupation[0]];
+
+      if (formatedCharacter.status === 'Alive') {
+        formatedCharacter.formatedStatus = 'Vivo';
+      } else if (formatedCharacter.status === 'Deceased') {
+        formatedCharacter.formatedStatus = 'Morto';
+      } else {
+        formatedCharacter.formatedStatus = 'Desconhecido';
+      }
+
       formatedCharacter.birthday = formatDate(formatedCharacter.birthday);
 
       setCharacter(formatedCharacter);
@@ -108,7 +118,9 @@ const CharacterOverView: React.FC = () => {
 
           <View>
             <CharacterInfoSubTitle>Status:</CharacterInfoSubTitle>
-            <CharacterInfoText>{character.status}</CharacterInfoText>
+            <CharacterInfoText status={character.formatedStatus}>
+              {character.formatedStatus}
+            </CharacterInfoText>
           </View>
         </PortraytedStatusContainer>
       </CharacterInfo>
