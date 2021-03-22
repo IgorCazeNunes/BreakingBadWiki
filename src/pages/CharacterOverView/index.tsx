@@ -5,6 +5,7 @@ import { Linking, View } from 'react-native';
 
 import formatDate from '../../utils/formatDate';
 import api from '../../services/api';
+import { Character } from '../CharactersList';
 
 import {
   Container,
@@ -22,13 +23,9 @@ import {
   SearchGoogleButtonText,
 } from './styles';
 
-export interface CharacterData {
-  name: string;
-  birthday: string;
+interface CharacterData extends Character {
   occupation: string[];
-  img: string;
   status: string;
-  nickname: string;
   portrayed: string;
 }
 
