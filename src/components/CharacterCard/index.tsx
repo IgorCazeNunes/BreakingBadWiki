@@ -2,6 +2,8 @@ import { useNavigation } from '@react-navigation/core';
 import React, { useCallback } from 'react';
 import { View } from 'react-native';
 
+import formatDate from '../../utils/formatDate';
+
 import { Character } from '../../pages/CharactersList';
 
 import {
@@ -47,7 +49,7 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ item }) => {
 
         <View>
           <CardBirthdayTitle>Data de nascimento:</CardBirthdayTitle>
-          <CardBirthdayText>{item.birthday}</CardBirthdayText>
+          <CardBirthdayText>{formatDate(item.birthday)}</CardBirthdayText>
         </View>
       </CardInformation>
     </Container>
