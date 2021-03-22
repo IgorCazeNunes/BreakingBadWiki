@@ -1,5 +1,15 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Feather';
+
+interface CharacterInfoTextProps {
+  status?: 'Vivo' | 'Morto' | 'Desconhecido';
+}
+
+const handleStatusType = {
+  Vivo: '#4ac82a',
+  Morto: '#e91337',
+  Desconhecido: '#ff9000',
+};
 
 export const Container = styled.View`
   flex: 1;
@@ -41,11 +51,17 @@ export const CharacterInfoSubTitle = styled.Text`
   line-height: 20px;
 `;
 
-export const CharacterInfoText = styled.Text`
+export const CharacterInfoText = styled.Text<CharacterInfoTextProps>`
   color: #3d3d4d;
   font-size: 16px;
   font-family: 'Poppins-SemiBold';
   line-height: 20px;
+
+  ${props =>
+    props.status &&
+    css`
+      color: ${handleStatusType[props.status]};
+    `}
 `;
 
 export const PortraytedStatusContainer = styled.View`
