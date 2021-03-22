@@ -11,10 +11,8 @@ import {
   CardImage,
   CardInformation,
   CardTitle,
-  CardNicknameTitle,
-  CardNicknameText,
-  CardBirthdayTitle,
-  CardBirthdayText,
+  CardSubTitle,
+  CardText,
 } from './styles';
 
 interface CharacterCardProps {
@@ -43,13 +41,13 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ item }) => {
         <CardTitle>{item.name}</CardTitle>
 
         <View>
-          <CardNicknameTitle>Conhecido como:</CardNicknameTitle>
-          <CardNicknameText>{item.nickname}</CardNicknameText>
+          <CardSubTitle>Conhecido como:</CardSubTitle>
+          <CardText>{item.nickname}</CardText>
         </View>
 
         <View>
-          <CardBirthdayTitle>Data de nascimento:</CardBirthdayTitle>
-          <CardBirthdayText>{formatDate(item.birthday)}</CardBirthdayText>
+          <CardSubTitle>Data de nascimento:</CardSubTitle>
+          <CardText>{formatDate(item.birthday)}</CardText>
         </View>
       </CardInformation>
     </Container>

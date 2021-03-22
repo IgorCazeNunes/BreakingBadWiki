@@ -32,7 +32,7 @@ export const CardTitle = styled.Text`
   font-family: 'Poppins-SemiBold';
 `;
 
-export const CardNicknameTitle = styled.Text`
+export const CardSubTitle = styled.Text`
   color: #3d3d4d;
   font-size: 14px;
   font-family: 'Poppins-Medium';
@@ -40,26 +40,10 @@ export const CardNicknameTitle = styled.Text`
   line-height: 20px;
 `;
 
-export const CardNicknameText = styled.Text`
+export const CardText = styled.Text`
   color: #3d3d4d;
   font-size: 16px;
   font-family: 'Poppins-Medium';
 
   line-height: 20px;
-`;
-
-export const CardBirthdayTitle = styled.Text`
-  color: #3d3d4d;
-  font-size: 14px;
-  font-family: 'Poppins-Medium';
-
-  line-height: 20px;
-`;
-
-export const CardBirthdayText = styled.Text`
-  color: #3d3d4d;
-  font-size: 16px;
-  font-family: 'Poppins-Medium';
-
-  line-height: 18px;
 `;
