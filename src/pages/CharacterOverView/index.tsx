@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 
 import { Linking, View } from 'react-native';
+
+import formatDate from '../../utils/formatDate';
 import api from '../../services/api';
 
 import {
@@ -84,7 +86,9 @@ const CharacterOverView: React.FC = () => {
 
         <View>
           <CharacterInfoSubTitle>Data de nascimento:</CharacterInfoSubTitle>
-          <CharacterInfoText>{character.birthday}</CharacterInfoText>
+          <CharacterInfoText>
+            {formatDate(character.birthday)}
+          </CharacterInfoText>
         </View>
 
         <View>
