@@ -55,7 +55,10 @@ const CharacterOverView: React.FC = () => {
 
       const { data } = await api.get<CharacterData[]>(`/characters/${id}`);
 
-      setCharacter(data[0]);
+      const formatedCharacter = data[0];
+      formatedCharacter.birthday = formatDate(formatedCharacter.birthday);
+
+      setCharacter(formatedCharacter);
 
       setLoading(false);
     }
@@ -86,9 +89,7 @@ const CharacterOverView: React.FC = () => {
 
         <View>
           <CharacterInfoSubTitle>Data de nascimento:</CharacterInfoSubTitle>
-          <CharacterInfoText>
-            {formatDate(character.birthday)}
-          </CharacterInfoText>
+          <CharacterInfoText>{character.birthday}</CharacterInfoText>
         </View>
 
         <View>
