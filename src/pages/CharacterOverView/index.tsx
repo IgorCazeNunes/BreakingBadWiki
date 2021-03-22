@@ -7,6 +7,8 @@ import formatDate from '../../utils/formatDate';
 import api from '../../services/api';
 import { Character } from '../CharactersList';
 
+import emptyCharacterImage from '../../assets/emptyCharacter.png';
+
 import {
   Container,
   HeaderImage,
@@ -90,7 +92,11 @@ const CharacterOverView: React.FC = () => {
         <ReturnButtonIcon name="arrow-left" />
       </ReturnButton>
 
-      <HeaderImage source={{ uri: character.img }} />
+      {character.img ? (
+        <HeaderImage source={{ uri: character.img }} />
+      ) : (
+        <HeaderImage source={emptyCharacterImage} />
+      )}
 
       <CharacterInfo>
         <CharacterInfoTitle>{character.name}</CharacterInfoTitle>
