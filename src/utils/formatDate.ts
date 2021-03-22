@@ -1,7 +1,13 @@
 const formatDate = (date: string): string => {
-  const [MM, dd, aaaa] = date.split('-');
+  let dataFormatada = 'Desconhecida';
 
-  return `${dd}/${MM}/${aaaa}`;
+  if (!(date === 'Unknown')) {
+    const [month, day, age] = date.split('-');
+
+    dataFormatada = `${day}/${month}/${age}`;
+  }
+
+  return dataFormatada;
 };
 
 export default formatDate;
