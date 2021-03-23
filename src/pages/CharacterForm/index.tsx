@@ -61,9 +61,11 @@ const CharacterForm: React.FC = () => {
     handleBlur,
     handleSubmit,
     setFieldValue,
+    resetForm,
     values,
     errors,
     touched,
+    isSubmitting,
   } = useFormik({
     validationSchema: characterValidation,
     initialValues: {
@@ -76,6 +78,7 @@ const CharacterForm: React.FC = () => {
     },
     onSubmit: data => {
       onSubmit(data);
+      resetForm();
     },
   });
 
