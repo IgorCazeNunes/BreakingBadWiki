@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -7,7 +7,7 @@ import { Picker } from '@react-native-picker/picker';
 import { Alert } from 'react-native';
 import emptyCharacterImage from '../../assets/emptyCharacter.png';
 
-import Input from '../../components/Input';
+import Input, { InputRef } from '../../components/Input';
 
 import {
   Container,
@@ -37,6 +37,12 @@ interface CharacterFormData {
 
 const CharacterForm: React.FC = () => {
   const navigation = useNavigation();
+
+  const nameInput = useRef<InputRef>(null);
+  const occupationInput = useRef<InputRef>(null);
+  const nicknameInput = useRef<InputRef>(null);
+  const birthdayInput = useRef<InputRef>(null);
+  const portraytedInput = useRef<InputRef>(null);
 
   const characterValidation = Yup.object().shape({
     name: Yup.string().required('Obrigatório'),
@@ -106,6 +112,7 @@ const CharacterForm: React.FC = () => {
         <ContentTitle>Informações</ContentTitle>
 
         <Input
+          ref={nameInput}
           icon="user"
           placeholder="Nome"
           autoCorrect={false}
@@ -115,7 +122,9 @@ const CharacterForm: React.FC = () => {
           keyboardAppearance="dark"
           returnKeyType="next"
           returnKeyLabel="next"
+          blurOnSubmit={false}
           onChangeText={handleChange('name')}
+          onSubmitEditing={() => occupationInput.current?.focus()}
           onBlur={handleBlur('name')}
           value={values.name}
           error={errors.name}
@@ -123,8 +132,9 @@ const CharacterForm: React.FC = () => {
         />
 
         <Input
+          ref={occupationInput}
           icon="briefcase"
-          placeholder="Ocupacao"
+          placeholder="Ocupação"
           autoCorrect={false}
           autoCapitalize="sentences"
           autoCompleteType="off"
@@ -132,7 +142,9 @@ const CharacterForm: React.FC = () => {
           keyboardAppearance="dark"
           returnKeyType="next"
           returnKeyLabel="next"
+          blurOnSubmit={false}
           onChangeText={handleChange('occupation')}
+          onSubmitEditing={() => nicknameInput.current?.focus()}
           onBlur={handleBlur('occupation')}
           value={values.occupation}
           error={errors.occupation}
@@ -140,6 +152,7 @@ const CharacterForm: React.FC = () => {
         />
 
         <Input
+          ref={nicknameInput}
           icon="user"
           placeholder="Apelido"
           autoCorrect={false}
@@ -149,7 +162,9 @@ const CharacterForm: React.FC = () => {
           keyboardAppearance="dark"
           returnKeyType="next"
           returnKeyLabel="next"
+          blurOnSubmit={false}
           onChangeText={handleChange('nickname')}
+          onSubmitEditing={() => birthdayInput.current?.focus()}
           onBlur={handleBlur('nickname')}
           value={values.nickname}
           error={errors.nickname}
@@ -157,6 +172,7 @@ const CharacterForm: React.FC = () => {
         />
 
         <Input
+          ref={birthdayInput}
           icon="calendar"
           placeholder="Data de nascimento"
           autoCorrect={false}
@@ -166,7 +182,9 @@ const CharacterForm: React.FC = () => {
           keyboardAppearance="dark"
           returnKeyType="next"
           returnKeyLabel="next"
+          blurOnSubmit={false}
           onChangeText={handleChange('birthday')}
+          onSubmitEditing={() => portraytedInput.current?.focus()}
           onBlur={handleBlur('birthday')}
           value={values.birthday}
           error={errors.birthday}
@@ -174,6 +192,7 @@ const CharacterForm: React.FC = () => {
         />
 
         <Input
+          ref={portraytedInput}
           icon="meh"
           placeholder="Ator ou atriz"
           autoCorrect={false}
@@ -183,6 +202,7 @@ const CharacterForm: React.FC = () => {
           keyboardAppearance="dark"
           returnKeyType="next"
           returnKeyLabel="next"
+          blurOnSubmit
           onChangeText={handleChange('portrayted')}
           onBlur={handleBlur('portrayted')}
           value={values.portrayted}
