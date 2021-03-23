@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { Picker } from '@react-native-picker/picker';
+import { Alert } from 'react-native';
 import emptyCharacterImage from '../../assets/emptyCharacter.png';
 
 import Input from '../../components/Input';
@@ -44,7 +45,11 @@ const CharacterForm: React.FC = () => {
   });
 
   const handleSave = useCallback((data: CharacterFormData) => {
-    console.log(data);
+    Alert.alert(
+      `${data.name} adicionado!`,
+      'O personagem foi adicionado com sucesso!',
+      [{ text: 'OK' }],
+    );
   }, []);
 
   const handleBack = useCallback(() => {
