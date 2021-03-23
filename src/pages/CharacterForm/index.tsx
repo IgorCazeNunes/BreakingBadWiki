@@ -88,7 +88,7 @@ const CharacterForm: React.FC = () => {
             <ReturnButtonIcon name="arrow-left" />
           </ReturnButton>
 
-          <Title>Listagem</Title>
+          <Title>Adicionar</Title>
         </HeaderContainer>
 
         <CharacterImageContainer>
