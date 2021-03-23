@@ -1,12 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { useFormik } from 'formik';
-
-import { KeyboardAvoidingView, Platform, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import * as Yup from 'yup';
 
 import { Picker } from '@react-native-picker/picker';
-import { withTheme } from 'styled-components';
 import emptyCharacterImage from '../../assets/emptyCharacter.png';
 
 import Input from '../../components/Input';
@@ -38,17 +35,32 @@ interface CharacterFormData {
 }
 
 const CharacterForm: React.FC = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState('');
-
   const navigation = useNavigation();
+
+  const characterValidation = Yup.object().shape({
+    name: Yup.string().required('Obrigatório'),
+    birthday: Yup.string().required('Obrigatório'),
+    portrayted: Yup.string().required('Obrigatório'),
+  });
+
+  const handleSave = useCallback((data: CharacterFormData) => {
+    console.log(data);
+  }, []);
+
+  const handleBack = useCallback(() => {
+    navigation.navigate('CharactersList');
+  }, [navigation]);
 
   const {
     handleChange,
     handleBlur,
     handleSubmit,
-    values,
     setFieldValue,
+    values,
+    errors,
+    touched,
   } = useFormik({
+    validationSchema: characterValidation,
     initialValues: {
       name: '',
       occupation: '',
@@ -63,16 +75,8 @@ const CharacterForm: React.FC = () => {
     },
   });
 
-  const handleBack = useCallback(() => {
-    navigation.navigate('CharactersList');
-  }, [navigation]);
-
-  const handleSave = useCallback((data: CharacterFormData) => {
-    console.log(data);
-  }, []);
-
   return (
-    <Container>
+    <Container keyboardShouldPersistTaps="handled">
       <Header>
         <HeaderContainer>
           <ReturnButton onPress={handleBack}>
@@ -107,6 +111,8 @@ const CharacterForm: React.FC = () => {
           onChangeText={handleChange('name')}
           onBlur={handleBlur('name')}
           value={values.name}
+          error={errors.name}
+          isTouched={touched.name}
         />
 
         <Input
@@ -122,6 +128,8 @@ const CharacterForm: React.FC = () => {
           onChangeText={handleChange('occupation')}
           onBlur={handleBlur('occupation')}
           value={values.occupation}
+          error={errors.occupation}
+          isTouched={touched.occupation}
         />
 
         <Input
@@ -137,6 +145,8 @@ const CharacterForm: React.FC = () => {
           onChangeText={handleChange('nickname')}
           onBlur={handleBlur('nickname')}
           value={values.nickname}
+          error={errors.nickname}
+          isTouched={touched.nickname}
         />
 
         <Input
@@ -152,6 +162,8 @@ const CharacterForm: React.FC = () => {
           onChangeText={handleChange('birthday')}
           onBlur={handleBlur('birthday')}
           value={values.birthday}
+          error={errors.birthday}
+          isTouched={touched.birthday}
         />
 
         <Input
@@ -167,6 +179,8 @@ const CharacterForm: React.FC = () => {
           onChangeText={handleChange('portrayted')}
           onBlur={handleBlur('portrayted')}
           value={values.portrayted}
+          error={errors.portrayted}
+          isTouched={touched.portrayted}
         />
 
         <StatusPickerContainer>
@@ -174,7 +188,6 @@ const CharacterForm: React.FC = () => {
             selectedValue={values.status}
             onValueChange={(itemValue, itemIndex) => {
               setFieldValue('status', itemValue);
-              setSelectedLanguage(itemValue as string);
             }}
             dropdownIconColor="#000000"
           >

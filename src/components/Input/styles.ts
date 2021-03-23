@@ -1,7 +1,12 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Feather';
 
-export const Container = styled.View`
+interface ContainerProps {
+  isTouched: boolean | undefined;
+  error: string | undefined;
+}
+
+export const Container = styled.View<ContainerProps>`
   flex-direction: row;
   align-items: center;
 
@@ -14,6 +19,15 @@ export const Container = styled.View`
 
   background: #ffffff;
   border-radius: 6px;
+  border-width: 2px;
+  border-color: #ffffff;
+
+  ${props =>
+    props.isTouched &&
+    props.error &&
+    css`
+      border-color: #ff2323;
+    `}
 `;
 
 export const InputText = styled.TextInput`
@@ -29,4 +43,12 @@ export const InputIcon = styled(Icon)`
 
   color: #333333;
   font-size: 20px;
+`;
+
+export const ErrorText = styled.Text`
+  margin-left: 16px;
+
+  color: #ff2323;
+  font-size: 16px;
+  font-family: 'Poppins-Regular';
 `;
