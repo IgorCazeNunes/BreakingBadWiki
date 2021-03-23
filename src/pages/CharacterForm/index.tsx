@@ -44,7 +44,7 @@ const CharacterForm: React.FC = () => {
     portrayted: Yup.string().required('Obrigatório'),
   });
 
-  const handleSave = useCallback((data: CharacterFormData) => {
+  const onSubmit = useCallback((data: CharacterFormData) => {
     Alert.alert(
       `${data.name} adicionado!`,
       'O personagem foi adicionado com sucesso!',
@@ -74,9 +74,8 @@ const CharacterForm: React.FC = () => {
       portrayted: '',
       status: '',
     },
-    onSubmit: v => {
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      handleSave(v);
+    onSubmit: data => {
+      onSubmit(data);
     },
   });
 
