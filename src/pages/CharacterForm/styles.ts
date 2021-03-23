@@ -109,6 +109,18 @@ export const CharacterImageIconContainer = styled.View`
   border-radius: 24px;
 `;
 
+export const StatusPickerContainer = styled.View`
+  width: 100%;
+
+  height: 60px;
+
+  padding: 0 15px;
+  margin-bottom: 15px;
+
+  background: #ffffff;
+  border-radius: 6px;
+`;
+
 export const SaveButton = styled.TouchableOpacity`
   position: absolute;
   left: 0;

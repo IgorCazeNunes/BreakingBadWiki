@@ -1,10 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
 import { useFormik } from 'formik';
 
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
+import { Picker } from '@react-native-picker/picker';
+import { withTheme } from 'styled-components';
 import emptyCharacterImage from '../../assets/emptyCharacter.png';
 
 import Input from '../../components/Input';
@@ -24,6 +26,7 @@ import {
   ContentTitle,
   SaveButton,
   SaveButtonText,
+  StatusPickerContainer,
 } from './styles';
 
 interface CharacterFormData {
@@ -35,15 +38,24 @@ interface CharacterFormData {
 }
 
 const CharacterForm: React.FC = () => {
+  const [selectedLanguage, setSelectedLanguage] = useState('');
+
   const navigation = useNavigation();
 
-  const { handleChange, handleBlur, handleSubmit, values } = useFormik({
+  const {
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    values,
+    setFieldValue,
+  } = useFormik({
     initialValues: {
       name: '',
       occupation: '',
       nickname: '',
       birthday: '',
       portrayted: '',
+      status: '',
     },
     onSubmit: v => {
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -156,6 +168,22 @@ const CharacterForm: React.FC = () => {
           onBlur={handleBlur('portrayted')}
           value={values.portrayted}
         />
+
+        <StatusPickerContainer>
+          <Picker
+            selectedValue={values.status}
+            onValueChange={(itemValue, itemIndex) => {
+              setFieldValue('status', itemValue);
+              setSelectedLanguage(itemValue as string);
+            }}
+            dropdownIconColor="#000000"
+          >
+            <Picker.Item label="Escolha o status do personagem" value="" />
+            <Picker.Item label="Vivo" value="vivo" />
+            <Picker.Item label="Morto" value="morto" />
+            <Picker.Item label="Desconhecido" value="desconhecido" />
+          </Picker>
+        </StatusPickerContainer>
       </Content>
 
       <SaveButton onPress={handleSubmit}>
