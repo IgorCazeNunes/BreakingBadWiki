@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { Formik } from 'formik';
 
+import { useNavigation } from '@react-navigation/core';
 import api from '../../services/api';
 
 import CharacterCard from '../../components/CharacterCard';
@@ -32,6 +33,8 @@ const CharactersList: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [characters, setCharacters] = useState<Character[]>([]);
 
+  const navigation = useNavigation();
+
   useEffect(() => {
     async function loadCharacters(): Promise<void> {
       setLoading(true);
@@ -61,8 +64,8 @@ const CharactersList: React.FC = () => {
   }, []);
 
   const handleNavigateToNewCharacter = useCallback(() => {
-    console.log('Navigate To New Character');
-  }, []);
+    navigation.navigate('CharacterForm');
+  }, [navigation]);
 
   const totalCharacters = useMemo(() => {
     return characters.length;
