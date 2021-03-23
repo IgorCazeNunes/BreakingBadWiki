@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import { TextInputProps } from 'react-native';
 
 import { Container, InputIcon, InputText, ErrorText } from './styles';
@@ -9,15 +9,35 @@ interface InputProps extends TextInputProps {
   isTouched: boolean | undefined;
 }
 
-const Input: React.FC<InputProps> = ({ icon, error, isTouched, ...rest }) => {
+export interface InputRef {
+  focus(): void;
+}
+
+const Input: React.ForwardRefRenderFunction<InputRef, InputProps> = (
+  { icon, error, isTouched, ...rest },
+  ref,
+) => {
+  const inputElementRef = useRef<any>(null);
+
+  useImperativeHandle(ref, () => ({
+    focus() {
+      inputElementRef.current.focus();
+    },
+  }));
+
   return (
     <Container isTouched={isTouched} error={error}>
       <InputIcon name={icon} />
 
-      <InputText placeholderTextColor="#959595" {...rest} />
+      <InputText
+        ref={inputElementRef}
+        placeholderTextColor="#959595"
+        {...rest}
+      />
+
       {error && isTouched && <ErrorText>{error}</ErrorText>}
     </Container>
   );
 };
 
-export default Input;
+export default forwardRef(Input);
