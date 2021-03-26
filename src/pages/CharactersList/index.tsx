@@ -20,9 +20,9 @@ import {
   FloatButton,
   FloatButtonIcon,
 } from './styles';
+import { useCharacterList } from '../../hooks/characterList';
 
 export interface Character {
-  char_id: number;
   name: string;
   birthday: string;
   img: string;
@@ -33,6 +33,8 @@ const CharactersList: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [characters, setCharacters] = useState<Character[]>([]);
 
+  const { characterList, addCharacter } = useCharacterList();
+
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -41,13 +43,13 @@ const CharactersList: React.FC = () => {
 
       const { data } = await api.get<Character[]>('/characters');
 
-      setCharacters(data);
+      setCharacters([...characterList, ...data]);
 
       setLoading(false);
     }
 
     loadCharacters();
-  }, []);
+  }, [characterList]);
 
   const handleSearch = useCallback(async values => {
     setLoading(true);
