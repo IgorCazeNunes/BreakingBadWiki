@@ -26,6 +26,7 @@ import {
   SaveButtonText,
   StatusPickerContainer,
 } from './styles';
+import { useCharacterList } from '../../hooks/characterList';
 
 interface CharacterFormData {
   name: string;
@@ -33,10 +34,13 @@ interface CharacterFormData {
   nickname: string;
   birthday: string;
   portrayted: string;
+  status: string;
+  img: string;
 }
 
 const CharacterForm: React.FC = () => {
   const navigation = useNavigation();
+  const { addCharacter } = useCharacterList();
 
   const nameInput = useRef<InputRef>(null);
   const occupationInput = useRef<InputRef>(null);
@@ -50,13 +54,22 @@ const CharacterForm: React.FC = () => {
     portrayted: Yup.string().required('Obrigatório'),
   });
 
-  const onSubmit = useCallback((data: CharacterFormData) => {
-    Alert.alert(
-      `${data.name} adicionado!`,
-      'O personagem foi adicionado com sucesso!',
-      [{ text: 'OK' }],
-    );
-  }, []);
+  const onSubmit = useCallback(
+    (data: Omit<CharacterFormData, 'img'>) => {
+      Alert.alert(
+        `${data.name} adicionado!`,
+        'O personagem foi adicionado com sucesso!',
+        [{ text: 'OK' }],
+      );
+
+      // addCharacter({
+      //   ...data,
+      //   img:
+      //     'https://www.camaragibe.pe.gov.br/wp-content/uploads/2019/04/default-user-male.png',
+      // });
+    },
+    [addCharacter],
+  );
 
   const handleBack = useCallback(() => {
     navigation.navigate('CharactersList');
@@ -174,7 +187,7 @@ const CharacterForm: React.FC = () => {
         <Input
           ref={birthdayInput}
           icon="calendar"
-          placeholder="Data de nascimento"
+          placeholder="Data de nascimento ['MM-dd-aaaa']"
           autoCorrect={false}
           autoCapitalize="none"
           autoCompleteType="off"
@@ -219,9 +232,9 @@ const CharacterForm: React.FC = () => {
             dropdownIconColor="#000000"
           >
             <Picker.Item label="Escolha o status do personagem" value="" />
-            <Picker.Item label="Vivo" value="vivo" />
-            <Picker.Item label="Morto" value="morto" />
-            <Picker.Item label="Desconhecido" value="desconhecido" />
+            <Picker.Item label="Vivo" value="Alive" />
+            <Picker.Item label="Morto" value="Deceased" />
+            <Picker.Item label="Desconhecido" value="Unknown" />
           </Picker>
         </StatusPickerContainer>
       </Content>
