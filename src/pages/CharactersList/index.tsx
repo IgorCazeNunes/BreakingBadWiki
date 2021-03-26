@@ -108,7 +108,7 @@ const CharactersList: React.FC = () => {
         ) : (
           <FlatList
             data={characters}
-            keyExtractor={item => item.char_id}
+            keyExtractor={item => item.name}
             renderItem={({ item }: { item: Character }) => {
               return <CharacterCard item={item} />;
             }}
