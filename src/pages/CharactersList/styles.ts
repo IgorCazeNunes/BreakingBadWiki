@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Feather';
 export const Container = styled.View`
   flex: 1;
 
-  background: #c4c4c4;
+  background: #d2d6da;
 
   width: 100%;
   height: 100%;
@@ -20,17 +20,17 @@ export const Header = styled.View`
 
   padding: 0 20px;
 
-  background: #333333;
+  background: #0b5b4c;
 `;
 
 export const Title = styled.Text`
-  color: #ffffff;
+  color: #fcf8f5;
   font-size: 20px;
   font-family: 'Poppins-SemiBold';
 `;
 
 export const SubTitle = styled.Text`
-  color: #ffffff;
+  color: #fcf8f5;
   font-size: 14px;
   font-family: 'Poppins-Regular';
 `;
@@ -88,13 +88,13 @@ export const FloatButton = styled.TouchableOpacity`
   height: 50px;
   width: 50px;
 
-  background: #6d6d6d;
+  background: #4c8bf5;
   border-radius: 25px;
 `;
 
 export const FloatButtonIcon = styled(Icon)`
   margin-left: 3px;
 
-  color: #ffffff;
+  color: #fcf8f5;
   font-size: 26px;
 `;

@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Feather';
 export const Container = styled.ScrollView`
   flex: 1;
 
-  background: #c4c4c4;
+  background: #d2d6da;
 
   width: 100%;
   height: 100%;
@@ -20,7 +20,7 @@ export const Header = styled.View`
   padding: 25px;
   margin-bottom: 90px;
 
-  background: #333333;
+  background: #0b5b4c;
 `;
 
 export const HeaderContainer = styled.View`
@@ -30,8 +30,6 @@ export const HeaderContainer = styled.View`
   width: 100%;
 
   padding: 25px;
-
-  background: #333333;
 `;
 
 export const ReturnButton = styled.TouchableOpacity`
@@ -50,12 +48,12 @@ export const ReturnButton = styled.TouchableOpacity`
 export const ReturnButtonIcon = styled(Icon)`
   margin-left: 3px;
 
-  color: #ffffff;
+  color: #fcf8f5;
   font-size: 26px;
 `;
 
 export const Title = styled.Text`
-  color: #ffffff;
+  color: #fcf8f5;
   font-size: 25px;
   line-height: 37.5px;
   font-family: 'Poppins-SemiBold';
@@ -135,13 +133,13 @@ export const SaveButton = styled.TouchableOpacity`
 
   height: 56px;
 
-  background: #6d6d6d;
+  background: #4c8bf5;
 `;
 
 export const SaveButtonText = styled.Text`
   margin-left: 16px;
 
-  color: #e1e1e6;
+  color: #fcf8f5;
   font-size: 20px;
   font-family: 'Poppins-Medium';
   line-height: 33px;

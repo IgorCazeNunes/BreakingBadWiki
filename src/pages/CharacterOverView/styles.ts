@@ -14,8 +14,6 @@ const handleStatusType = {
 export const Container = styled.View`
   flex: 1;
 
-  background: #c4c4c4;
-
   width: 100%;
   height: 100%;
 `;
@@ -33,7 +31,7 @@ export const CharacterInfo = styled.View`
   margin-bottom: 56px;
   padding: 15px 25px;
 
-  background: #f0f0f5;
+  background: #fcf8f5;
 `;
 
 export const CharacterInfoTitle = styled.Text`
@@ -86,13 +84,13 @@ export const SearchGoogleButton = styled.TouchableOpacity`
 
   height: 56px;
 
-  background: #6d6d6d;
+  background: #4c8bf5;
 `;
 
 export const SearchGoogleButtonText = styled.Text`
   margin-left: 16px;
 
-  color: #e1e1e6;
+  color: #fcf8f5;
   font-size: 20px;
   font-family: 'Poppins-Medium';
   line-height: 33px;
@@ -117,13 +115,13 @@ export const ReturnButton = styled.TouchableOpacity`
   height: 50px;
   width: 50px;
 
-  background: #6d6d6d;
+  background: #fcf8f5;
   border-radius: 25px;
 `;
 
 export const ReturnButtonIcon = styled(Icon)`
   margin-left: 3px;
 
-  color: #ffffff;
+  color: #333333;
   font-size: 26px;
 `;

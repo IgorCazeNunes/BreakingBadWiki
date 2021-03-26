@@ -39,14 +39,14 @@ export const ButtonContainer = styled(RectButton)`
 
   margin: 150px 0 35px;
 
-  background: #6d6d6d;
+  background: #0b5b4c;
   border-radius: 6px;
 `;
 
 export const ButtonText = styled.Text`
   margin-right: 10px;
 
-  color: #e1e1e6;
+  color: #fcf8f5;
   font-size: 15px;
   font-family: 'Poppins-Medium';
 `;
