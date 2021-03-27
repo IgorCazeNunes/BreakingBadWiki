@@ -41,7 +41,7 @@ interface CharacterFormData {
 
 const CharacterForm: React.FC = () => {
   const navigation = useNavigation();
-  const { characterList, addCharacter } = useCharacterList();
+  const { addCharacter } = useCharacterList();
 
   const nameInput = useRef<InputRef>(null);
   const occupationInput = useRef<InputRef>(null);
@@ -228,7 +228,7 @@ const CharacterForm: React.FC = () => {
         <Input
           ref={birthdayInput}
           icon="calendar"
-          placeholder="Data de nascimento ['MM-dd-aaaa']"
+          placeholder="Data de nascimento. dd/MM/aaaa"
           autoCorrect={false}
           autoCapitalize="none"
           autoCompleteType="off"
