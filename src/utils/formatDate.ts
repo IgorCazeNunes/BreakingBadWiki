@@ -1,9 +1,9 @@
 const formatDate = (date: string): string => {
-  let dataFormatada = 'Desconhecida';
+  let dataFormatada = 'Desconhecido';
 
-  if (!(date === 'Unknown')) {
-    const [month, day, age] = date.split('-');
+  const [month, day, age] = date.split('-');
 
+  if (month && day && age) {
     dataFormatada = `${day}/${month}/${age}`;
   }
 
