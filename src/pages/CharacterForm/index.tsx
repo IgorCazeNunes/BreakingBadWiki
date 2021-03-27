@@ -57,20 +57,20 @@ const CharacterForm: React.FC = () => {
 
   const onSubmit = useCallback(
     async (data: CharacterFormData) => {
-      await addCharacter({
+      addCharacter({
         ...data,
+      }).then(() => {
+        Alert.alert(
+          `${data.name} adicionado!`,
+          'O personagem foi adicionado com sucesso!',
+          [
+            {
+              text: 'OK',
+              onPress: () => navigation.goBack(),
+            },
+          ],
+        );
       });
-
-      Alert.alert(
-        `${data.name} adicionado!`,
-        'O personagem foi adicionado com sucesso!',
-        [
-          {
-            text: 'OK',
-            onPress: () => navigation.goBack(),
-          },
-        ],
-      );
     },
     [addCharacter, navigation],
   );
@@ -99,7 +99,7 @@ const CharacterForm: React.FC = () => {
       portrayed: '',
       status: '',
     },
-    onSubmit: data => {
+    onSubmit: async data => {
       const { name, occupation, nickname, birthday, portrayed, status } = data;
 
       let verifiedStatus: 'Vivo' | 'Morto' | 'Desconhecido' = 'Desconhecido';
@@ -126,7 +126,7 @@ const CharacterForm: React.FC = () => {
         verifiedNickname = nickname;
       }
 
-      onSubmit({
+      await onSubmit({
         name,
         occupation: [verifiedOccupation],
         nickname: verifiedNickname,
