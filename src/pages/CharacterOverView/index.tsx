@@ -45,6 +45,7 @@ const CharacterOverView: React.FC = () => {
 
   const { searchExactCharacter } = useCharacterList();
 
+  const [isApi, setIsApi] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [character, setCharacter] = useState<CharacterData>(
     {} as CharacterData,
@@ -56,36 +57,51 @@ const CharacterOverView: React.FC = () => {
     async function loadCharacter(): Promise<void> {
       setIsLoading(true);
 
-      let formatedCharacter = searchExactCharacter(name);
+      let loadedCharacter = searchExactCharacter(name);
 
-      if (!formatedCharacter) {
+      if (!loadedCharacter) {
         const { data } = await api.get<CharacterData[]>(
           `/characters?name=${name}`,
         );
 
         // eslint-disable-next-line prefer-destructuring
-        formatedCharacter = data[0];
+        loadedCharacter = data[0];
+
+        setIsApi(true);
       }
 
-      formatedCharacter.occupation = [formatedCharacter.occupation[0]];
+      let formatedOccupation = ['Desconhecido'];
 
-      if (formatedCharacter.status === 'Alive') {
-        formatedCharacter.formatedStatus = 'Vivo';
-      } else if (formatedCharacter.status === 'Deceased') {
-        formatedCharacter.formatedStatus = 'Morto';
-      } else {
-        formatedCharacter.formatedStatus = 'Desconhecido';
+      if (loadedCharacter.occupation[0]) {
+        formatedOccupation = [loadedCharacter.occupation[0]];
       }
 
-      formatedCharacter.birthday = formatDate(formatedCharacter.birthday);
+      let formatedStatus: 'Vivo' | 'Morto' | 'Desconhecido' = 'Desconhecido';
 
-      setCharacter(formatedCharacter);
+      if (loadedCharacter.status === 'Alive') {
+        formatedStatus = 'Vivo';
+      } else if (loadedCharacter.status === 'Deceased') {
+        formatedStatus = 'Morto';
+      }
+
+      let formatedBirthday = loadedCharacter.birthday;
+
+      if (isApi) {
+        formatedBirthday = formatDate(loadedCharacter.birthday);
+      }
+
+      setCharacter({
+        ...loadedCharacter,
+        formatedStatus,
+        occupation: formatedOccupation,
+        birthday: formatedBirthday,
+      });
 
       setIsLoading(false);
     }
 
     loadCharacter();
-  }, [name, searchExactCharacter]);
+  }, [name, searchExactCharacter, isApi]);
 
   const handleBack = useCallback(() => {
     navigation.navigate('CharactersList');
