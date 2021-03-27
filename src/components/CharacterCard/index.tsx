@@ -23,8 +23,8 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ item }) => {
   const navigation = useNavigation();
 
   const handleNavigateToCharacterOverView = useCallback(
-    (id: number) => {
-      navigation.navigate('CharacterOverView', { id });
+    (name: string) => {
+      navigation.navigate('CharacterOverView', { name });
     },
     [navigation],
   );
@@ -35,7 +35,7 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ item }) => {
 
       <CardInformation
         onPress={() => {
-          handleNavigateToCharacterOverView(item.char_id);
+          handleNavigateToCharacterOverView(item.name);
         }}
       >
         <CardTitle ellipsizeMode="tail" numberOfLines={1}>

@@ -34,7 +34,7 @@ interface CharacterData extends Character {
 
 type ParamList = {
   CharacterOverView: {
-    id: number;
+    name: string;
   };
 };
 
@@ -47,15 +47,18 @@ const CharacterOverView: React.FC = () => {
     {} as CharacterData,
   );
 
-  const { id } = route.params;
+  const { name } = route.params;
 
   useEffect(() => {
     async function loadCharacter(): Promise<void> {
       setIsLoading(true);
 
-      const { data } = await api.get<CharacterData[]>(`/characters/${id}`);
+      const { data } = await api.get<CharacterData[]>(
+        `/characters?name=${name}`,
+      );
 
       const formatedCharacter = data[0];
+
       formatedCharacter.occupation = [formatedCharacter.occupation[0]];
 
       if (formatedCharacter.status === 'Alive') {
@@ -74,14 +77,14 @@ const CharacterOverView: React.FC = () => {
     }
 
     loadCharacter();
-  }, [id]);
+  }, [name]);
 
   const handleBack = useCallback(() => {
     navigation.navigate('CharactersList');
   }, [navigation]);
 
-  const handleSearchGoogle = useCallback(async name => {
-    Linking.openURL(`https://www.google.com/search?q=${name}`);
+  const handleSearchGoogle = useCallback(async searchName => {
+    Linking.openURL(`https://www.google.com/search?q=${searchName}`);
   }, []);
 
   return (
