@@ -21,6 +21,7 @@ interface CharacterState {
 interface CharacterListContextData {
   characterList: CharacterState[];
   addCharacter(character: CharacterState): void;
+  searchCharacters(name: string): CharacterState[];
 }
 
 const CharacterListContext = createContext<CharacterListContextData>(
@@ -58,37 +59,21 @@ export const CharacterListProvider: React.FC = ({ children }) => {
     [characterList],
   );
 
-  // useEffect(() => {
-  //   setTimeout(async () => {
-  //     addCharacter({
-  //       name: 'Teste 1',
-  //       occupation: 'Teste 1',
-  //       nickname: 'Teste 1',
-  //       birthday: '08-11-1970',
-  //       portrayted: 'Igor?',
-  //       img: '',
-  //     });
-  //     addCharacter({
-  //       name: 'Teste 2',
-  //       occupation: 'Teste 2',
-  //       nickname: 'Teste 2',
-  //       birthday: '08-11-1970',
-  //       portrayted: 'Igor?',
-  //       img: '',
-  //     });
-  //     addCharacter({
-  //       name: 'Teste 3',
-  //       occupation: 'Teste 3',
-  //       nickname: 'Teste 3',
-  //       birthday: '08-11-1970',
-  //       portrayted: 'Igor?',
-  //       img: '',
-  //     });
-  //   }, 3000);
-  // }, []);
+  const searchCharacters = useCallback(
+    (name: string) => {
+      const filteredCharacterList = characterList.filter(c =>
+        c.name.toLowerCase().includes(name.toLowerCase()),
+      );
+
+      return filteredCharacterList;
+    },
+    [characterList],
+  );
 
   return (
-    <CharacterListContext.Provider value={{ characterList, addCharacter }}>
+    <CharacterListContext.Provider
+      value={{ characterList, addCharacter, searchCharacters }}
+    >
       {children}
     </CharacterListContext.Provider>
   );
