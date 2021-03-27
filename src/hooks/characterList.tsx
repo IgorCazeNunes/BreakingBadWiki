@@ -10,17 +10,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface CharacterState {
   name: string;
-  occupation: string;
+  occupation: string[];
   nickname: string;
   birthday: string;
-  portrayted: string;
-  status: string;
+  portrayed: string;
+  status: 'Presumed dead' | 'Alive' | 'Deceased' | 'Unknown';
+  formatedStatus: 'Vivo' | 'Morto' | 'Desconhecido';
   img: string;
 }
 
 interface CharacterListContextData {
   characterList: CharacterState[];
-  addCharacter(character: CharacterState): void;
+  addCharacter(character: CharacterState): Promise<void>;
   searchCharacters(name: string): CharacterState[];
   searchExactCharacter(name: string): CharacterState;
 }
