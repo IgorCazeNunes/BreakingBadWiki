@@ -33,7 +33,7 @@ const CharactersList: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [characters, setCharacters] = useState<Character[]>([]);
 
-  const { characterList, addCharacter } = useCharacterList();
+  const { characterList, searchCharacters } = useCharacterList();
 
   const navigation = useNavigation();
 
@@ -51,19 +51,24 @@ const CharactersList: React.FC = () => {
     loadCharacters();
   }, [characterList]);
 
-  const handleSearch = useCallback(async values => {
-    setLoading(true);
+  const handleSearch = useCallback(
+    async values => {
+      setLoading(true);
 
-    setCharacters([]);
+      setCharacters([]);
 
-    const { data } = await api.get<Character[]>(
-      `/characters?name=${values.name}`,
-    );
+      const { data } = await api.get<Character[]>(
+        `/characters?name=${values.name}`,
+      );
 
-    setCharacters(data);
+      const searchedCharacters = searchCharacters(values.name);
 
-    setLoading(false);
-  }, []);
+      setCharacters([...searchedCharacters, ...data]);
+
+      setLoading(false);
+    },
+    [searchCharacters],
+  );
 
   const handleNavigateToNewCharacter = useCallback(() => {
     navigation.navigate('CharacterForm');
