@@ -22,6 +22,7 @@ interface CharacterListContextData {
   characterList: CharacterState[];
   addCharacter(character: CharacterState): void;
   searchCharacters(name: string): CharacterState[];
+  searchExactCharacter(name: string): CharacterState;
 }
 
 const CharacterListContext = createContext<CharacterListContextData>(
@@ -70,9 +71,23 @@ export const CharacterListProvider: React.FC = ({ children }) => {
     [characterList],
   );
 
+  const searchExactCharacter = useCallback(
+    (name: string) => {
+      const [exactCharacter] = characterList.filter(c => c.name === name);
+
+      return exactCharacter;
+    },
+    [characterList],
+  );
+
   return (
     <CharacterListContext.Provider
-      value={{ characterList, addCharacter, searchCharacters }}
+      value={{
+        characterList,
+        addCharacter,
+        searchCharacters,
+        searchExactCharacter,
+      }}
     >
       {children}
     </CharacterListContext.Provider>
