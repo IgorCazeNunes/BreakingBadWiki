@@ -30,7 +30,7 @@ const CharacterListContext = createContext<CharacterListContextData>(
   {} as CharacterListContextData,
 );
 
-const storageKey = '@breakingBadWiki:';
+const storageKey = '@BreakingBadWiki:';
 
 export const CharacterListProvider: React.FC = ({ children }) => {
   const [characterList, setCharacterList] = useState<CharacterState[]>([]);
@@ -38,7 +38,7 @@ export const CharacterListProvider: React.FC = ({ children }) => {
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {
       const recoveredCharacterList = await AsyncStorage.getItem(
-        `${storageKey}characterList`,
+        `${storageKey}CharacterList`,
       );
 
       if (recoveredCharacterList) {
@@ -51,12 +51,13 @@ export const CharacterListProvider: React.FC = ({ children }) => {
 
   const addCharacter = useCallback(
     async (character: CharacterState) => {
-      setCharacterList([...characterList, character]);
+      const newList = [...characterList, character];
 
-      AsyncStorage.setItem(
-        `${storageKey}characterList`,
-        JSON.stringify(characterList),
-      );
+      await AsyncStorage.multiSet([
+        [`${storageKey}CharacterList`, JSON.stringify(newList)],
+      ]);
+
+      setCharacterList(newList);
     },
     [characterList],
   );
