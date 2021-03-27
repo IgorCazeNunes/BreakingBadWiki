@@ -30,43 +30,42 @@ import { useCharacterList } from '../../hooks/characterList';
 
 interface CharacterFormData {
   name: string;
-  occupation: string;
+  occupation: string[];
   nickname: string;
   birthday: string;
-  portrayted: string;
-  status: string;
+  portrayed: string;
+  status: 'Presumed dead' | 'Alive' | 'Deceased' | 'Unknown';
+  formatedStatus: 'Vivo' | 'Morto' | 'Desconhecido';
   img: string;
 }
 
 const CharacterForm: React.FC = () => {
   const navigation = useNavigation();
-  const { addCharacter } = useCharacterList();
+  const { characterList, addCharacter } = useCharacterList();
 
   const nameInput = useRef<InputRef>(null);
   const occupationInput = useRef<InputRef>(null);
   const nicknameInput = useRef<InputRef>(null);
   const birthdayInput = useRef<InputRef>(null);
-  const portraytedInput = useRef<InputRef>(null);
+  const portrayedInput = useRef<InputRef>(null);
 
   const characterValidation = Yup.object().shape({
     name: Yup.string().required('Obrigatório'),
     birthday: Yup.string().required('Obrigatório'),
-    portrayted: Yup.string().required('Obrigatório'),
+    portrayed: Yup.string().required('Obrigatório'),
   });
 
   const onSubmit = useCallback(
-    (data: Omit<CharacterFormData, 'img'>) => {
+    async (data: CharacterFormData) => {
+      await addCharacter({
+        ...data,
+      });
+
       Alert.alert(
         `${data.name} adicionado!`,
         'O personagem foi adicionado com sucesso!',
         [{ text: 'OK' }],
       );
-
-      // addCharacter({
-      //   ...data,
-      //   img:
-      //     'https://www.camaragibe.pe.gov.br/wp-content/uploads/2019/04/default-user-male.png',
-      // });
     },
     [addCharacter],
   );
@@ -92,11 +91,48 @@ const CharacterForm: React.FC = () => {
       occupation: '',
       nickname: '',
       birthday: '',
-      portrayted: '',
+      portrayed: '',
       status: '',
     },
     onSubmit: data => {
-      onSubmit(data);
+      const { name, occupation, nickname, birthday, portrayed, status } = data;
+
+      let verifiedStatus: 'Vivo' | 'Morto' | 'Desconhecido' = 'Desconhecido';
+      let statusFormated: 'Presumed dead' | 'Alive' | 'Deceased' | 'Unknown' =
+        'Unknown';
+
+      if (status === 'Alive') {
+        statusFormated = status;
+        verifiedStatus = 'Vivo';
+      } else if (status === 'Deceased') {
+        statusFormated = status;
+        verifiedStatus = 'Morto';
+      }
+
+      let verifiedOccupation = 'Desconhecido';
+
+      if (occupation) {
+        verifiedOccupation = occupation;
+      }
+
+      let verifiedNickname = 'Desconhecido';
+
+      if (nickname) {
+        verifiedNickname = nickname;
+      }
+
+      onSubmit({
+        name,
+        occupation: [verifiedOccupation],
+        nickname: verifiedNickname,
+        birthday,
+        portrayed,
+        status: statusFormated,
+        formatedStatus: verifiedStatus,
+        img:
+          'https://www.camaragibe.pe.gov.br/wp-content/uploads/2019/04/default-user-male.png',
+      });
+
       resetForm();
     },
   });
@@ -197,7 +233,7 @@ const CharacterForm: React.FC = () => {
           returnKeyLabel="next"
           blurOnSubmit={false}
           onChangeText={handleChange('birthday')}
-          onSubmitEditing={() => portraytedInput.current?.focus()}
+          onSubmitEditing={() => portrayedInput.current?.focus()}
           onBlur={handleBlur('birthday')}
           value={values.birthday}
           error={errors.birthday}
@@ -205,7 +241,7 @@ const CharacterForm: React.FC = () => {
         />
 
         <Input
-          ref={portraytedInput}
+          ref={portrayedInput}
           icon="meh"
           placeholder="Ator ou atriz"
           autoCorrect={false}
@@ -216,11 +252,11 @@ const CharacterForm: React.FC = () => {
           returnKeyType="next"
           returnKeyLabel="next"
           blurOnSubmit
-          onChangeText={handleChange('portrayted')}
-          onBlur={handleBlur('portrayted')}
-          value={values.portrayted}
-          error={errors.portrayted}
-          isTouched={touched.portrayted}
+          onChangeText={handleChange('portrayed')}
+          onBlur={handleBlur('portrayed')}
+          value={values.portrayed}
+          error={errors.portrayed}
+          isTouched={touched.portrayed}
         />
 
         <StatusPickerContainer>
