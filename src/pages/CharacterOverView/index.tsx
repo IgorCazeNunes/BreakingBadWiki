@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { Linking, View } from 'react-native';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 
-import { Linking, View } from 'react-native';
+import { useCharacterList } from '../../hooks/characterList';
 
 import formatDate from '../../utils/formatDate';
 import api from '../../services/api';
@@ -42,6 +43,8 @@ const CharacterOverView: React.FC = () => {
   const route = useRoute<RouteProp<ParamList, 'CharacterOverView'>>();
   const navigation = useNavigation();
 
+  const { searchExactCharacter } = useCharacterList();
+
   const [isLoading, setIsLoading] = useState(false);
   const [character, setCharacter] = useState<CharacterData>(
     {} as CharacterData,
@@ -53,11 +56,16 @@ const CharacterOverView: React.FC = () => {
     async function loadCharacter(): Promise<void> {
       setIsLoading(true);
 
-      const { data } = await api.get<CharacterData[]>(
-        `/characters?name=${name}`,
-      );
+      let formatedCharacter = searchExactCharacter(name);
 
-      const formatedCharacter = data[0];
+      if (!formatedCharacter) {
+        const { data } = await api.get<CharacterData[]>(
+          `/characters?name=${name}`,
+        );
+
+        // eslint-disable-next-line prefer-destructuring
+        formatedCharacter = data[0];
+      }
 
       formatedCharacter.occupation = [formatedCharacter.occupation[0]];
 
@@ -77,7 +85,7 @@ const CharacterOverView: React.FC = () => {
     }
 
     loadCharacter();
-  }, [name]);
+  }, [name, searchExactCharacter]);
 
   const handleBack = useCallback(() => {
     navigation.navigate('CharactersList');
