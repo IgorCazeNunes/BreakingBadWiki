@@ -49,7 +49,7 @@ const CharacterCard: React.FC<CharacterCardProps> = ({ item }) => {
 
         <View>
           <CardSubTitle>Data de nascimento:</CardSubTitle>
-          <CardText>{formatDate(item.birthday)}</CardText>
+          <CardText>{item.birthday}</CardText>
         </View>
       </CardInformation>
     </Container>

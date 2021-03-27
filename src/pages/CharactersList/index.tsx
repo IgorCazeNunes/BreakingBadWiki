@@ -21,6 +21,7 @@ import {
   FloatButtonIcon,
 } from './styles';
 import { useCharacterList } from '../../hooks/characterList';
+import formatDate from '../../utils/formatDate';
 
 export interface Character {
   name: string;
@@ -43,7 +44,14 @@ const CharactersList: React.FC = () => {
 
       const { data } = await api.get<Character[]>('/characters');
 
-      setCharacters([...characterList, ...data]);
+      const formatedCharacterList = data.map(char => {
+        return {
+          ...char,
+          birthday: formatDate(char.birthday),
+        };
+      });
+
+      setCharacters([...characterList, ...formatedCharacterList]);
 
       setLoading(false);
     }
@@ -57,13 +65,20 @@ const CharactersList: React.FC = () => {
 
       setCharacters([]);
 
+      const searchedLocalCharacters = searchCharacters(values.name);
+
       const { data } = await api.get<Character[]>(
         `/characters?name=${values.name}`,
       );
 
-      const searchedCharacters = searchCharacters(values.name);
+      const formatedCharacterList = data.map(char => {
+        return {
+          ...char,
+          birthday: formatDate(char.birthday),
+        };
+      });
 
-      setCharacters([...searchedCharacters, ...data]);
+      setCharacters([...searchedLocalCharacters, ...formatedCharacterList]);
 
       setLoading(false);
     },
