@@ -31,7 +31,7 @@ export interface Character {
 }
 
 const CharactersList: React.FC = () => {
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [characters, setCharacters] = useState<Character[]>([]);
 
   const { characterList, searchCharacters } = useCharacterList();
@@ -40,7 +40,7 @@ const CharactersList: React.FC = () => {
 
   useEffect(() => {
     async function loadCharacters(): Promise<void> {
-      setLoading(true);
+      setIsLoading(true);
 
       const { data } = await api.get<Character[]>('/characters');
 
@@ -53,7 +53,7 @@ const CharactersList: React.FC = () => {
 
       setCharacters([...characterList, ...formatedCharacterList]);
 
-      setLoading(false);
+      setIsLoading(false);
     }
 
     loadCharacters();
@@ -61,7 +61,7 @@ const CharactersList: React.FC = () => {
 
   const handleSearch = useCallback(
     async values => {
-      setLoading(true);
+      setIsLoading(true);
 
       setCharacters([]);
 
@@ -80,7 +80,7 @@ const CharactersList: React.FC = () => {
 
       setCharacters([...searchedLocalCharacters, ...formatedCharacterList]);
 
-      setLoading(false);
+      setIsLoading(false);
     },
     [searchCharacters],
   );
@@ -125,7 +125,7 @@ const CharactersList: React.FC = () => {
           )}
         </Formik>
 
-        {loading ? (
+        {isLoading ? (
           <Loader size="large" color="#3d3d4d" />
         ) : (
           <FlatList
