@@ -64,10 +64,15 @@ const CharacterForm: React.FC = () => {
       Alert.alert(
         `${data.name} adicionado!`,
         'O personagem foi adicionado com sucesso!',
-        [{ text: 'OK' }],
+        [
+          {
+            text: 'OK',
+            onPress: () => navigation.goBack(),
+          },
+        ],
       );
     },
-    [addCharacter],
+    [addCharacter, navigation],
   );
 
   const handleBack = useCallback(() => {
