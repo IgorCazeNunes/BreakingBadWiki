@@ -82,7 +82,7 @@ export const CharacterImage = styled.Image`
   border-radius: 90px;
 `;
 
-export const CharacterImageContainer = styled.View`
+export const CharacterImageContainer = styled.TouchableOpacity`
   width: 180px;
   height: 180px;
 `;
@@ -92,7 +92,7 @@ export const CharacterImageIcon = styled(Icon)`
   font-size: 26px;
 `;
 
-export const CharacterImageIconContainer = styled.View`
+export const CharacterImageIconContainer = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
 
@@ -103,7 +103,7 @@ export const CharacterImageIconContainer = styled.View`
   width: 48px;
   height: 48px;
 
-  background: #6d6d6d;
+  background: #0b5b4c;
   border-radius: 24px;
 `;
 
