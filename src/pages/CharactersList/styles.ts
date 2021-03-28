@@ -88,7 +88,7 @@ export const FloatButton = styled.TouchableOpacity`
   height: 50px;
   width: 50px;
 
-  background: #4c8bf5;
+  background: #40a07b;
   border-radius: 25px;
 `;
 

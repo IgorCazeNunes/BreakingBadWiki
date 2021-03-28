@@ -103,7 +103,7 @@ export const CharacterImageIconContainer = styled.TouchableOpacity`
   width: 48px;
   height: 48px;
 
-  background: #0b5b4c;
+  background: #40a07b;
   border-radius: 24px;
 `;
 
@@ -133,7 +133,7 @@ export const SaveButton = styled.TouchableOpacity`
 
   height: 56px;
 
-  background: #4c8bf5;
+  background: #40a07b;
 `;
 
 export const SaveButtonText = styled.Text`
