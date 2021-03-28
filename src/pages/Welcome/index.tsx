@@ -12,10 +12,14 @@ import {
   ButtonContainer,
   ButtonText,
   ButtonIcon,
+  Loader,
 } from './styles';
+import { useCharacterList } from '../../hooks/characterList';
 
 const Welcome: React.FC = () => {
   const navigation = useNavigation();
+
+  const { isLoadingLocalData } = useCharacterList();
 
   const handleNavigateToCharactersList = useCallback(() => {
     navigation.navigate('CharactersList');
@@ -35,11 +39,17 @@ const Welcome: React.FC = () => {
         americana breaking bad.
       </Description>
 
-      <ButtonContainer onPress={handleNavigateToCharactersList}>
-        <ButtonText>Proseguir</ButtonText>
+      {isLoadingLocalData ? (
+        <ButtonContainer>
+          <Loader size="large" color="#ffffff" />
+        </ButtonContainer>
+      ) : (
+        <ButtonContainer onPress={handleNavigateToCharactersList}>
+          <ButtonText>Proseguir</ButtonText>
 
-        <ButtonIcon name="arrow-right" />
-      </ButtonContainer>
+          <ButtonIcon name="arrow-right" />
+        </ButtonContainer>
+      )}
     </Container>
   );
 };

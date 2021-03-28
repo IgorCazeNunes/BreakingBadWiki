@@ -20,6 +20,7 @@ interface CharacterState {
 }
 
 interface CharacterListContextData {
+  isLoadingLocalData: boolean;
   characterList: CharacterState[];
   addCharacter(character: CharacterState): Promise<void>;
   searchCharacters(name: string): CharacterState[];
@@ -33,6 +34,7 @@ const CharacterListContext = createContext<CharacterListContextData>(
 const storageKey = '@BreakingBadWiki:';
 
 export const CharacterListProvider: React.FC = ({ children }) => {
+  const [isLoadingLocalData, setIsLoadingLocalData] = useState(false);
   const [characterList, setCharacterList] = useState<CharacterState[]>([]);
 
   useEffect(() => {
@@ -44,6 +46,8 @@ export const CharacterListProvider: React.FC = ({ children }) => {
       if (recoveredCharacterList) {
         setCharacterList(JSON.parse(recoveredCharacterList));
       }
+
+      setIsLoadingLocalData(false);
     }
 
     loadStoragedData();
@@ -85,6 +89,7 @@ export const CharacterListProvider: React.FC = ({ children }) => {
   return (
     <CharacterListContext.Provider
       value={{
+        isLoadingLocalData,
         characterList,
         addCharacter,
         searchCharacters,
