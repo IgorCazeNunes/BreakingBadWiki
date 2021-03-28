@@ -1,10 +1,12 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/core';
+import * as ImagePicker from 'react-native-image-picker';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { Picker } from '@react-native-picker/picker';
 import { Alert } from 'react-native';
+
 import emptyCharacterImage from '../../assets/emptyCharacter.png';
 
 import Input, { InputRef } from '../../components/Input';
@@ -41,7 +43,12 @@ interface CharacterFormData {
 
 const CharacterForm: React.FC = () => {
   const navigation = useNavigation();
+
   const { addCharacter } = useCharacterList();
+
+  const [customImageUri, setCustomImageUri] = useState(
+    'https://www.camaragibe.pe.gov.br/wp-content/uploads/2019/04/default-user-male.png',
+  );
 
   const nameInput = useRef<InputRef>(null);
   const occupationInput = useRef<InputRef>(null);
@@ -78,6 +85,22 @@ const CharacterForm: React.FC = () => {
   const handleBack = useCallback(() => {
     navigation.navigate('CharactersList');
   }, [navigation]);
+
+  const handleGetImage = useCallback(() => {
+    ImagePicker.launchImageLibrary(
+      {
+        mediaType: 'photo',
+        includeBase64: false,
+        maxHeight: 600,
+        maxWidth: 600,
+      },
+      response => {
+        if (response.uri) {
+          setCustomImageUri(response.uri);
+        }
+      },
+    );
+  }, []);
 
   const {
     handleChange,
@@ -134,8 +157,7 @@ const CharacterForm: React.FC = () => {
         portrayed,
         status: statusFormated,
         formatedStatus: verifiedStatus,
-        img:
-          'https://www.camaragibe.pe.gov.br/wp-content/uploads/2019/04/default-user-male.png',
+        img: customImageUri,
       });
 
       resetForm();
@@ -153,8 +175,8 @@ const CharacterForm: React.FC = () => {
           <Title>Adicionar</Title>
         </HeaderContainer>
 
-        <CharacterImageContainer>
-          <CharacterImage source={emptyCharacterImage} />
+        <CharacterImageContainer onPress={handleGetImage}>
+          <CharacterImage source={{ uri: customImageUri }} />
 
           <CharacterImageIconContainer>
             <CharacterImageIcon name="camera" />
